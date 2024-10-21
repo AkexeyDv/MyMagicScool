@@ -1,6 +1,7 @@
 package com.pro.sky.ScoolHogwartsMagic.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Faculty {
     private String name;
     private String color;
     @OneToMany(mappedBy = "faculty")
+    @JsonIgnore
     private List<Student> students = new ArrayList<>();
 
     public Long getId() {

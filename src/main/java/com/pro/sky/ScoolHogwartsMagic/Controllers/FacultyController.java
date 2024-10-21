@@ -1,0 +1,40 @@
+package com.pro.sky.ScoolHogwartsMagic.Controllers;
+
+import com.pro.sky.ScoolHogwartsMagic.Model.Faculty;
+import com.pro.sky.ScoolHogwartsMagic.Services.FacultyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@RestController
+@RequestMapping("/faculty")
+public class FacultyController {
+    private final FacultyService facultyService;
+    private static final Logger logger= LoggerFactory.getLogger(FacultyController.class);
+
+    public FacultyController(FacultyService facultyService) {
+        this.facultyService = facultyService;
+    }
+    @PostMapping
+    public Faculty createFaculty(@RequestBody Faculty faculty){
+        return facultyService.createFaculty(faculty);
+    }
+    @GetMapping
+    public ResponseEntity<List<Faculty>> findFacultyByColor(@RequestParam String color){
+        logger.info("Запрос факультета на цвет: "+color);
+        return ResponseEntity.ok(facultyService.getFacultyByColor(color));
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Faculty>> getAllFaculty(){
+        logger.info("Запрос на выдачу всего списка факультетов");
+        return ResponseEntity.ok(facultyService.getAllFaculty());
+    }
+    @DeleteMapping
+    public ResponseEntity<Faculty> delFaculty(@RequestParam Long id){
+        return ResponseEntity.ok(facultyService.deleteFaculty(id));
+    }
+}
