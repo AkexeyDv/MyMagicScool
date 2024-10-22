@@ -1,6 +1,7 @@
 package com.pro.sky.ScoolHogwartsMagic.Controllers;
 
 import com.pro.sky.ScoolHogwartsMagic.Model.Faculty;
+import com.pro.sky.ScoolHogwartsMagic.Model.Student;
 import com.pro.sky.ScoolHogwartsMagic.Services.FacultyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,10 @@ public class FacultyController {
     public ResponseEntity<List<Faculty>> getAllFaculty(){
         logger.info("Запрос на выдачу всего списка факультетов");
         return ResponseEntity.ok(facultyService.getAllFaculty());
+    }
+    @GetMapping("{id}")
+    public ResponseEntity<List<Student>> getStudentByFaculty(@RequestParam Long id){
+        return ResponseEntity.ok(facultyService.getStudentByFaculty(id));
     }
     @DeleteMapping
     public ResponseEntity<Faculty> delFaculty(@RequestParam Long id){

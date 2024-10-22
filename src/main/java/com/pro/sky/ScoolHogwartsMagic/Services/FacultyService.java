@@ -59,6 +59,7 @@ public class FacultyService {
         logger.info("Запущен метод вызова списка студентов факультета с id: "+id);
         return facultyRepository.findById(id).get().getStudents();
     }
+
 }
 
 
