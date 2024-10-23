@@ -66,17 +66,5 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public List<String> getAllStusentByLetter(char letter){
-        logger.info("Запущен метод получения имен студентов, начинающихся с символа "+letter);
-        List<Student> students=getAllStudent();
-        return students.stream().map(Student::getName)
-                .filter(name->name.charAt(0)==letter)
-                .sorted().toList();
-    }
-    public Double getMidAgeStudent(){
-        logger.info("Запущен метод получениясреднего возраста студентов");
-        List<Student> students=getAllStudent();
-        return (double) students.stream().mapToInt(Student::getAge)
-                .sum()/students.size();
-    }
+
 }

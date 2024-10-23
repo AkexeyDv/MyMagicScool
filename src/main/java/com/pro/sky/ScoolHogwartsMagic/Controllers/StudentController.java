@@ -25,16 +25,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudent());
     }
 
-    @GetMapping("{letter}")
-    public ResponseEntity<List<String>> getStudentWithChar(@RequestParam char letter) {
-        logger.info("Запрос на выдачу списка студентов, имена которых начинаются с символа "+letter);
-        return ResponseEntity.ok(studentService.getAllStusentByLetter(letter));
-    }
-    @GetMapping("midage")
-    public Double getMidAge(){
-        logger.info("Запрос на выдачу среднего возраста студентов");
-        return studentService.getMidAgeStudent();
-    }
+
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
