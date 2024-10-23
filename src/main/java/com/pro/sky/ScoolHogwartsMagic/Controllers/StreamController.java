@@ -14,4 +14,8 @@ public class StreamController {
         this.iterateService = iterateService;
     }
 
+    @GetMapping
+    public Integer calculateStream() {
+        return iterateService.iterateCalculate();
+    }
 }

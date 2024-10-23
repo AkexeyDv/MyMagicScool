@@ -53,11 +53,17 @@ public class FacultyService {
         return delFaculty;
     }
 
-    public List<Student> getStudentByFaculty(Long id){
-        logger.info("Запущен метод вызова списка студентов факультета с id: "+id);
+    public List<Student> getStudentByFaculty(Long id) {
+        logger.info("Запущен метод вызова списка студентов факультета с id: " + id);
         return facultyRepository.findById(id).get().getStudents();
     }
 
+    public String getMaxLongNameToFaculty() {
+        logger.info("Запущен метод получения самого длинного названия факультета");
+        return facultyRepository.findAll()
+                .stream().map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length)).get();
+    }
 
 }
 

@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/student")
 public class StudentController {
     private final StudentService studentService;
-    private static final Logger logger=LoggerFactory.getLogger(StudentController.class);
+    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -26,13 +26,11 @@ public class StudentController {
     }
 
 
-
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
         logger.info("Запрос на создание студента");
         return studentService.createStudent(student);
     }
-
 
 
     @PutMapping
@@ -43,4 +41,15 @@ public class StudentController {
 
     }
 
+    @GetMapping("{letter}")
+    public ResponseEntity<List<String>> getStudentWithChar(@RequestParam char letter) {
+        logger.info("Запрос на выдачу списка студентов, имена которых начинаются с символа " + letter);
+        return ResponseEntity.ok(studentService.getAllStusentByLetter(letter));
+    }
+
+    @GetMapping("midage")
+    public Double getMidAge() {
+        logger.info("Запрос на выдачу среднего возраста студентов");
+        return studentService.getMidAgeStudent();
+    }
 }
