@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,9 +26,6 @@ public class FacultyService {
 
     public Faculty createFaculty(Faculty faculty) {
         logger.info("Запущен метод создания факультета " + faculty.toString());
-        if (faculty == null) {
-            throw new AppException("Создание пустой сущности");
-        }
         if (facultyRepository.findById(faculty.getId()).isPresent()) {
             throw new AppException("Факультет с таким Id уже существует");
         }
@@ -58,6 +56,12 @@ public class FacultyService {
     public List<Student> getStudentByFaculty(Long id){
         logger.info("Запущен метод вызова списка студентов факультета с id: "+id);
         return facultyRepository.findById(id).get().getStudents();
+    }
+    public String getMaxLongNameToFaculty(){
+        logger.info("Запущен метод получения самого длинного названия факультета");
+        return facultyRepository.findAll()
+                .stream().map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length)).get();
     }
 
 }
