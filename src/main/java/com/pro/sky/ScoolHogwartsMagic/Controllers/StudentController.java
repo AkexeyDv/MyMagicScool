@@ -42,8 +42,11 @@ public class StudentController {
         return studentService.createStudent(student);
     }
 
+
+
     @PutMapping
     public Student editStudent(@RequestBody Student student) {
+
         logger.info("Запрос на редактирование студента");
         return studentService.editStudent(student);
 
