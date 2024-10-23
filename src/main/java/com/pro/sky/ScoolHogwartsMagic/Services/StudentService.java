@@ -66,5 +66,9 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-
+    public List<Student> getAllStusentByLetter(char letter){
+        List<Student> students=getAllStudent();
+        List<Student> studentListChar=students.stream().filter(s->s.getName().charAt(0)==letter).toList();
+        return studentListChar;
+    }
 }
