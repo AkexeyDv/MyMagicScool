@@ -22,8 +22,12 @@ public class StudentController {
     }
 
     @GetMapping("{letter}")
-    public ResponseEntity<List<Student>> getStudentWithChar(@RequestParam char letter) {
+    public ResponseEntity<List<String>> getStudentWithChar(@RequestParam char letter) {
         return ResponseEntity.ok(studentService.getAllStusentByLetter(letter));
+    }
+    @GetMapping("midage")
+    public Double getMidAge(){
+        return studentService.getMidAgeStudent();
     }
 
     @PostMapping

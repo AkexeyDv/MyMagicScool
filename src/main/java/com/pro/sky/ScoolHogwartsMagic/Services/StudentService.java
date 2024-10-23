@@ -66,9 +66,15 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public List<Student> getAllStusentByLetter(char letter){
+    public List<String> getAllStusentByLetter(char letter){
         List<Student> students=getAllStudent();
-        List<Student> studentListChar=students.stream().filter(s->s.getName().charAt(0)==letter).toList();
-        return studentListChar;
+        return students.stream().map(Student::getName)
+                .filter(name->name.charAt(0)==letter)
+                .sorted().toList();
+    }
+    public Double getMidAgeStudent(){
+        List<Student> students=getAllStudent();
+        return (double) students.stream().mapToInt(Student::getAge)
+                .sum()/students.size();
     }
 }
