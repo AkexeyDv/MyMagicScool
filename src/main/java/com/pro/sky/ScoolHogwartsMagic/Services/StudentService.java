@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class StudentService {
     private final static Logger logger = LoggerFactory.getLogger(StudentService.class);
@@ -64,4 +65,6 @@ public class StudentService {
         logger.info("Запущен метод получения всех студентов");
         return studentRepository.findAll();
     }
+
+
 }

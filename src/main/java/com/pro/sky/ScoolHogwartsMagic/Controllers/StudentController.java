@@ -19,6 +19,7 @@ public class StudentController {
     public ResponseEntity<List<Student>> getAllStudent(){
         return ResponseEntity.ok(studentService.getAllStudent());
     }
+
     @PostMapping
     public Student createStudent(@RequestBody Student student){
         return studentService.createStudent(student);
