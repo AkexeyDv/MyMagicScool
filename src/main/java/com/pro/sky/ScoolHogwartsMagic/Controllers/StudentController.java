@@ -46,6 +46,7 @@ public class StudentController {
     public Student editStudent(@RequestBody Student student) {
         logger.info("Запрос на редактирование студента");
         return studentService.editStudent(student);
+
     }
 
 }
