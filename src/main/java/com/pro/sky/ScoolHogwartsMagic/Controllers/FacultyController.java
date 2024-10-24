@@ -46,7 +46,7 @@ public class FacultyController {
         logger.info("Запрос на удаление факультета");
         return ResponseEntity.ok(facultyService.deleteFaculty(id));
     }
-    @GetMapping("/longfaculty")
+    @GetMapping("/maxFacultyName")
     public String getMaxLenNameToFaculty(){
         logger.info("Запрос на выдачу самого длинного названия факультета");
         return facultyService.getMaxLongNameToFaculty();
