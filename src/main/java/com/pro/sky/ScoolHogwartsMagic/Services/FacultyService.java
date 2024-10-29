@@ -4,12 +4,11 @@ import com.pro.sky.ScoolHogwartsMagic.Exception.AppException;
 import com.pro.sky.ScoolHogwartsMagic.Model.Faculty;
 import com.pro.sky.ScoolHogwartsMagic.Model.Student;
 import com.pro.sky.ScoolHogwartsMagic.Repositorys.FacultyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -60,9 +59,7 @@ public class FacultyService {
 
     public String getMaxLongNameToFaculty() {
         logger.info("Запущен метод получения самого длинного названия факультета");
-        return facultyRepository.findAll()
-                .stream().map(Faculty::getName)
-                .max(Comparator.comparingInt(String::length)).get();
+        return facultyRepository.findMaxLenName().getName();
     }
 
 }

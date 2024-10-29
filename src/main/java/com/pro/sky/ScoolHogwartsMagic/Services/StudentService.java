@@ -16,6 +16,7 @@ import java.util.Optional;
 @Service
 public class StudentService {
     private final static Logger logger = LoggerFactory.getLogger(StudentService.class);
+    @Autowired
     private final StudentRepository studentRepository;
     private final FacultyRepository facultyRepository;
 
@@ -68,7 +69,8 @@ public class StudentService {
 
     public List<String> getAllStusentByLetter(char letter) {
         logger.info("Запущен метод получения имен студентов, начинающихся с символа " + letter);
-        List<Student> students = getAllStudent();
+        String startChar = letter + "";
+        List<Student> students = studentRepository.findByNameStartingWith(startChar);
         return students.stream().map(Student::getName)
                 .filter(name -> name.charAt(0) == letter)
                 .sorted().toList();
@@ -76,8 +78,6 @@ public class StudentService {
 
     public Double getMidAgeStudent() {
         logger.info("Запущен метод получениясреднего возраста студентов");
-        List<Student> students = getAllStudent();
-        return (double) students.stream().mapToInt(Student::getAge)
-                .sum() / students.size();
+        return studentRepository.findAverageAge();
     }
 }
