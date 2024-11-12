@@ -52,4 +52,8 @@ public class StudentController {
         logger.info("Запрос на выдачу среднего возраста студентов");
         return studentService.getMidAgeStudent();
     }
+    @GetMapping("/print-parallel")
+    public void getParallel(){
+        studentService.parallelThread();
+    }
 }

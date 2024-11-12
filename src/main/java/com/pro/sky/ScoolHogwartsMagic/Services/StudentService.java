@@ -80,4 +80,30 @@ public class StudentService {
         logger.info("Запущен метод получениясреднего возраста студентов");
         return studentRepository.findAverageAge();
     }
+    private List<String> getNameStudent(){
+        List<String> listName=getAllStudent().stream().map(s->s.getName()).toList();
+        return listName;
+    }
+
+    private void printToConsole(String name){
+        System.out.println(name);
+    }
+
+    public void parallelThread(){
+        List<String> name=getNameStudent();
+        printToConsole(name.get(0));
+        printToConsole(name.get(1));
+        Thread thread1=new Thread(()->{
+            printToConsole(name.get(2));
+            printToConsole(name.get(3));
+        });
+        Thread thread2=new Thread(()->{
+            printToConsole(name.get(4));
+            printToConsole(name.get(5));
+        });
+        thread1.start();
+        thread2.start();
+    }
+
+
 }
