@@ -88,6 +88,13 @@ public class StudentService {
     private void printToConsole(String name){
         System.out.println(name);
     }
+    private void printToConsoleSynchron(String name){
+        Object objectForSinhron=new Object();
+        synchronized (objectForSinhron){
+            System.out.println(name);
+        }
+
+    }
 
     public void parallelThread(){
         List<String> name=getNameStudent();
@@ -100,6 +107,21 @@ public class StudentService {
         Thread thread2=new Thread(()->{
             printToConsole(name.get(4));
             printToConsole(name.get(5));
+        });
+        thread1.start();
+        thread2.start();
+    }
+    public void parallelThreadSynchron(){
+        List<String> name=getNameStudent();
+        printToConsoleSynchron(name.get(0));
+        printToConsoleSynchron(name.get(1));
+        Thread thread1=new Thread(()->{
+            printToConsoleSynchron(name.get(2));
+            printToConsoleSynchron(name.get(3));
+        });
+        Thread thread2=new Thread(()->{
+            printToConsoleSynchron(name.get(4));
+            printToConsoleSynchron(name.get(5));
         });
         thread1.start();
         thread2.start();

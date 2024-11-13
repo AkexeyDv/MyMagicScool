@@ -53,7 +53,11 @@ public class StudentController {
         return studentService.getMidAgeStudent();
     }
     @GetMapping("/print-parallel")
-    public void getParallel(){
+    public void getNameStudentParallel(){
         studentService.parallelThread();
+    }
+    @GetMapping("print-synchro-parallel")
+    public void getNameStudentSynchroParallel(){
+        studentService.parallelThreadSynchron();
     }
 }
