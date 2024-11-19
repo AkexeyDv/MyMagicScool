@@ -83,9 +83,6 @@ public class StudentService {
         return studentRepository.findAverageAge();
     }
 
-    private void printToConsole(String name){
-        System.out.println(name);
-    }
     private void printToConsoleSynchron(String name){
         synchronized (objectForSinchron){
             System.out.println(name);
@@ -98,15 +95,15 @@ public class StudentService {
                 .map(Student::getName)
                 .toList();
         if(name.size()<minCountStudentName) {
-            printToConsole(name.get(0));
-            printToConsole(name.get(1));
+            System.out.println(name.get(0));
+            System.out.println(name.get(1));
             Thread thread1 = new Thread(() -> {
-                printToConsole(name.get(2));
-                printToConsole(name.get(3));
+                System.out.println(name.get(2));
+                System.out.println(name.get(3));
             });
             Thread thread2 = new Thread(() -> {
-                printToConsole(name.get(4));
-                printToConsole(name.get(5));
+                System.out.println(name.get(4));
+                System.out.println(name.get(5));
             });
             thread1.start();
             thread2.start();
