@@ -19,6 +19,8 @@ public class StudentService {
     @Autowired
     private final StudentRepository studentRepository;
     private final FacultyRepository facultyRepository;
+    private Object objectForSinchron=new Object();
+    private final Integer minCountStudentName=6;
 
     @Autowired
     public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository) {
@@ -80,51 +82,54 @@ public class StudentService {
         logger.info("Запущен метод получениясреднего возраста студентов");
         return studentRepository.findAverageAge();
     }
-    private List<String> getNameStudent(){
-        List<String> listName=getAllStudent().stream().map(s->s.getName()).toList();
-        return listName;
-    }
 
     private void printToConsole(String name){
         System.out.println(name);
     }
     private void printToConsoleSynchron(String name){
-        Object objectForSinhron=new Object();
-        synchronized (objectForSinhron){
+        synchronized (objectForSinchron){
             System.out.println(name);
         }
 
     }
 
     public void parallelThread(){
-        List<String> name=getNameStudent();
-        printToConsole(name.get(0));
-        printToConsole(name.get(1));
-        Thread thread1=new Thread(()->{
-            printToConsole(name.get(2));
-            printToConsole(name.get(3));
-        });
-        Thread thread2=new Thread(()->{
-            printToConsole(name.get(4));
-            printToConsole(name.get(5));
-        });
-        thread1.start();
-        thread2.start();
+        List<String> name=getAllStudent().stream()
+                .map(Student::getName)
+                .toList();
+        if(name.size()<minCountStudentName) {
+            printToConsole(name.get(0));
+            printToConsole(name.get(1));
+            Thread thread1 = new Thread(() -> {
+                printToConsole(name.get(2));
+                printToConsole(name.get(3));
+            });
+            Thread thread2 = new Thread(() -> {
+                printToConsole(name.get(4));
+                printToConsole(name.get(5));
+            });
+            thread1.start();
+            thread2.start();
+        }
     }
     public void parallelThreadSynchron(){
-        List<String> name=getNameStudent();
-        printToConsoleSynchron(name.get(0));
-        printToConsoleSynchron(name.get(1));
-        Thread thread1=new Thread(()->{
-            printToConsoleSynchron(name.get(2));
-            printToConsoleSynchron(name.get(3));
-        });
-        Thread thread2=new Thread(()->{
-            printToConsoleSynchron(name.get(4));
-            printToConsoleSynchron(name.get(5));
-        });
-        thread1.start();
-        thread2.start();
+        List<String> name=getAllStudent().stream()
+                .map(Student::getName)
+                .toList();
+        if(name.size()<minCountStudentName) {
+            printToConsoleSynchron(name.get(0));
+            printToConsoleSynchron(name.get(1));
+            Thread thread1 = new Thread(() -> {
+                printToConsoleSynchron(name.get(2));
+                printToConsoleSynchron(name.get(3));
+            });
+            Thread thread2 = new Thread(() -> {
+                printToConsoleSynchron(name.get(4));
+                printToConsoleSynchron(name.get(5));
+            });
+            thread1.start();
+            thread2.start();
+        }
     }
 
 
