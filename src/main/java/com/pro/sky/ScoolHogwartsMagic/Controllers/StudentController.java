@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/student")
+@CrossOrigin(origins = "*")
 public class StudentController {
     private final StudentService studentService;
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
@@ -41,7 +42,7 @@ public class StudentController {
 
     }
 
-    @GetMapping("{letter}")
+    @GetMapping("/letter")
     public ResponseEntity<List<String>> getStudentWithChar(@RequestParam char letter) {
         logger.info("Запрос на выдачу списка студентов, имена которых начинаются с символа " + letter);
         return ResponseEntity.ok(studentService.getAllStusentByLetter(letter));

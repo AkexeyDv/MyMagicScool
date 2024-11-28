@@ -19,8 +19,8 @@ public class StudentService {
     @Autowired
     private final StudentRepository studentRepository;
     private final FacultyRepository facultyRepository;
-    private Object objectForSinchron=new Object();
-    private final Integer minCountStudentName=6;
+    private Object objectForSinchron = new Object();
+    private final Integer MIN_COUNT_STUDENT_NAME = 6;
 
     @Autowired
     public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository) {
@@ -83,18 +83,25 @@ public class StudentService {
         return studentRepository.findAverageAge();
     }
 
-    private void printToConsoleSynchron(String name){
-        synchronized (objectForSinchron){
+    private void printToConsoleSynchron(String name) {
+        synchronized (objectForSinchron) {
             System.out.println(name);
         }
 
     }
 
-    public void parallelThread(){
-        List<String> name=getAllStudent().stream()
+    public List<String> getStudentName() {
+        logger.info("Запущен метод получения имен студентов");
+        List<String> name = getAllStudent().stream()
                 .map(Student::getName)
                 .toList();
-        if(name.size()<minCountStudentName) {
+        return name;
+    }
+
+    public void parallelThread() {
+        logger.info("Запущен метод параллельных потоков печати имен студентов");
+        List<String> name = getStudentName();
+        if ((!name.isEmpty()) & (name.size() < MIN_COUNT_STUDENT_NAME)) {
             System.out.println(name.get(0));
             System.out.println(name.get(1));
             Thread thread1 = new Thread(() -> {
@@ -109,11 +116,12 @@ public class StudentService {
             thread2.start();
         }
     }
-    public void parallelThreadSynchron(){
-        List<String> name=getAllStudent().stream()
+
+    public void parallelThreadSynchron() {
+        List<String> name = getAllStudent().stream()
                 .map(Student::getName)
                 .toList();
-        if(name.size()<minCountStudentName) {
+        if ((!name.isEmpty()) & (name.size() < MIN_COUNT_STUDENT_NAME)) {
             printToConsoleSynchron(name.get(0));
             printToConsoleSynchron(name.get(1));
             Thread thread1 = new Thread(() -> {
