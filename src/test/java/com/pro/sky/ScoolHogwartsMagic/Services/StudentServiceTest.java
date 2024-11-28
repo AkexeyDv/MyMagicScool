@@ -25,7 +25,11 @@ class StudentServiceTest {
 
     @Test
     void parallelThread() {
-
+        StudentService out = new StudentService(mockStudentRepository, mockFacultyRepository);
+        Student stud1 = new Student();
+        List<Student> studentList = new ArrayList<>();
+        Mockito.when(mockStudentRepository.findAll()).thenReturn(studentList);
+        Assertions.assertDoesNotThrow(out::parallelThread);
 
 
     }
