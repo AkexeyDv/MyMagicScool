@@ -40,14 +40,15 @@ public class FacultyController {
         logger.info("Запрос на выдачу списка студентов факультета");
         return ResponseEntity.ok(facultyService.getStudentByFaculty(id));
     }
-    @GetMapping("/longfaculty")
-    public String getMaxLenNameToFaculty(){
-        logger.info("Запрос на выдачу самого длинного названия факультета");
-        return facultyService.getMaxLongNameToFaculty();
-    }
+
     @DeleteMapping
     public ResponseEntity<Faculty> delFaculty(@RequestParam Long id){
         logger.info("Запрос на удаление факультета");
         return ResponseEntity.ok(facultyService.deleteFaculty(id));
+    }
+    @GetMapping("/maxFacultyName")
+    public String getMaxLenNameToFaculty(){
+        logger.info("Запрос на выдачу самого длинного названия факультета");
+        return facultyService.getMaxLongNameToFaculty();
     }
 }

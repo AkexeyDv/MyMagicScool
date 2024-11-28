@@ -16,8 +16,11 @@ import java.util.Optional;
 @Service
 public class StudentService {
     private final static Logger logger = LoggerFactory.getLogger(StudentService.class);
+    @Autowired
     private final StudentRepository studentRepository;
     private final FacultyRepository facultyRepository;
+    private Object objectForSinchron = new Object();
+    private final Integer MIN_COUNT_STUDENT_NAME = 6;
 
     @Autowired
     public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository) {
@@ -53,7 +56,7 @@ public class StudentService {
             throw new AppException("Переданный объект содержит null");
         }
 
-        Student editingStudent=studentRepository.findById(student.getId()).get();
+        Student editingStudent = studentRepository.findById(student.getId()).get();
         editingStudent.setName(student.getName());
         editingStudent.setAge(student.getAge());
         return studentRepository.save(editingStudent);
@@ -66,17 +69,73 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public List<String> getAllStusentByLetter(char letter){
-        logger.info("Запущен метод получения имен студентов, начинающихся с символа "+letter);
-        List<Student> students=getAllStudent();
+    public List<String> getAllStusentByLetter(char letter) {
+        logger.info("Запущен метод получения имен студентов, начинающихся с символа " + letter);
+        String startChar = letter + "";
+        List<Student> students = studentRepository.findByNameStartingWith(startChar);
         return students.stream().map(Student::getName)
-                .filter(name->name.charAt(0)==letter)
+                .filter(name -> name.charAt(0) == letter)
                 .sorted().toList();
     }
-    public Double getMidAgeStudent(){
+
+    public Double getMidAgeStudent() {
         logger.info("Запущен метод получениясреднего возраста студентов");
-        List<Student> students=getAllStudent();
-        return (double) students.stream().mapToInt(Student::getAge)
-                .sum()/students.size();
+        return studentRepository.findAverageAge();
     }
+
+    private void printToConsoleSynchron(String name) {
+        synchronized (objectForSinchron) {
+            System.out.println(name);
+        }
+
+    }
+
+    public List<String> getStudentName() {
+        logger.info("Запущен метод получения имен студентов");
+        List<String> name = getAllStudent().stream()
+                .map(Student::getName)
+                .toList();
+        return name;
+    }
+
+    public void parallelThread() {
+        logger.info("Запущен метод параллельных потоков печати имен студентов");
+        List<String> name = getStudentName();
+        if ((!name.isEmpty()) & (name.size() < MIN_COUNT_STUDENT_NAME)) {
+            System.out.println(name.get(0));
+            System.out.println(name.get(1));
+            Thread thread1 = new Thread(() -> {
+                System.out.println(name.get(2));
+                System.out.println(name.get(3));
+            });
+            Thread thread2 = new Thread(() -> {
+                System.out.println(name.get(4));
+                System.out.println(name.get(5));
+            });
+            thread1.start();
+            thread2.start();
+        }
+    }
+
+    public void parallelThreadSynchron() {
+        List<String> name = getAllStudent().stream()
+                .map(Student::getName)
+                .toList();
+        if ((!name.isEmpty()) & (name.size() < MIN_COUNT_STUDENT_NAME)) {
+            printToConsoleSynchron(name.get(0));
+            printToConsoleSynchron(name.get(1));
+            Thread thread1 = new Thread(() -> {
+                printToConsoleSynchron(name.get(2));
+                printToConsoleSynchron(name.get(3));
+            });
+            Thread thread2 = new Thread(() -> {
+                printToConsoleSynchron(name.get(4));
+                printToConsoleSynchron(name.get(5));
+            });
+            thread1.start();
+            thread2.start();
+        }
+    }
+
+
 }
